@@ -141,7 +141,7 @@ router.post(
           postare.save().then(postare => res.json(postare));
         })
         .catch(() =>
-          res.status(404).json({ mesaj: "postarea nu a fost gasita" })
+          res.status(404).json({ mesaj: "postarea nu a fost gasita!" })
         );
     });
   }
