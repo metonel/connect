@@ -147,4 +147,66 @@ router.post(
   }
 );
 
+// @route   POST /api/postari/comment/:id
+// @desc    adauga un comentariu uni post
+// @access  privat
+
+router.post(
+  "/comment/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { erori, eValid } = valideazaPostare(req.body);
+
+    if (!eValid) {
+      return res.status(400).json(erori);
+    }
+
+    Postare.findById(req.params.id)
+      .then(postare => {
+        const commentNou = {
+          text: req.body.text,
+          nume: req.body.nume,
+          avatar: req.body.avatar,
+          user: req.user.id
+        };
+        //adauga id-ul in likes
+        postare.comentari.unshift(commentNou); //se putea si postare.likes.push()
+        postare.save().then(postare => res.json(postare));
+      })
+      .catch(() =>
+        res.status(404).json({ mesaj: "postarea nu a fost gasita" })
+      );
+  }
+);
+// @route   DELETE /api/postari/comment/:id/:comm_id
+// @desc    sterge un comentariu
+// @access  privat
+
+router.delete(
+  "/comment/:id/:comm_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Postare.findById(req.params.id)
+      .then(postare => {
+        if (
+          postare.comentari.filter(
+            comment => comment._id.toString() === req.params.comm_id
+          ).length === 0
+        ) {
+          //daca filter returneaza raspuns, inseamna ca commentul exista, daca ii 0, nu exista
+          return res.status(404).json({ mesaj: "coment inexistent" });
+        }
+        //indexul commentului ce il stergem
+        const stergeIndex = postare.comentari
+          .map(item => item._id.toString())
+          .indexOf(req.params.comm_id);
+        //splice
+        postare.comentari.splice(stergeIndex, 1);
+        postare.save().then(postare => res.json(postare));
+        //return res.json(postare);
+      })
+      .catch(err => res.status(404).json({ error: "aici" }));
+  }
+);
+
 module.exports = router;

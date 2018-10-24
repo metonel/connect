@@ -11,7 +11,7 @@ module.exports = function valideazaPostare(data) {
   }
 
   if (validator.isEmpty(data.text)) {
-    erori.text = "textul este necesara";
+    erori.text = "textul este necesar";
   }
 
   return {
