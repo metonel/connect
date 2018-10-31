@@ -7,11 +7,13 @@ import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 //INREGISTRAREA
 
 export const registerUser = (userData, history) => dispatch => {
+  //ca o functie in functie, si dispatch ii functie
   axios
     .post("api/useri/inregistrare", userData) //nu trebe si http://localhost:5000 pt ca am pus asta in proxy, in package.json
     .then(res => history.push("/login"))
     .catch(err =>
       dispatch({
+        //fiind async folosim dispatch, functie care fine din arrow funct de sus. astea de fac cu thunk
         type: GET_ERRORS,
         payload: err.response.data
       })

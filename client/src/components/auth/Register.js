@@ -20,7 +20,8 @@ class Register extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
+    //am mapat erorile in mapStateToProps
     if (nextProps.erori) {
       this.setState({ erori: nextProps.erori });
     }
@@ -44,7 +45,7 @@ class Register extends Component {
   }
 
   render() {
-    const { erori } = this.state;
+    const { erori } = this.state; //fara component receive props, puteam folosi aici this.props pt ca in mapStateToProps le-am mapat
 
     return (
       <div>
@@ -145,11 +146,11 @@ Register.PropTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth, //asta vine din authReducer
-  erori: state.erori
+  auth: state.auth, //asta vine din reducers/index (root reducer, unde is pusi toti reducerii), da ii legat de authReducer
+  erori: state.erori //this.props.erori
 }); //sa putem accesa din alte componente state-ul, cu this.props.user sau this.props.eAutenfificat
 
 export default connect(
   mapStateToProps,
-  { registerUser }
+  { registerUser } //actions
 )(withRouter(Register));

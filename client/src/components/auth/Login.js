@@ -10,7 +10,7 @@ class Login extends Component {
     this.state = {
       email: "",
       parola: "",
-      errors: {}
+      errors: {} //errors e folosit doar in componenta asta, erori ii ce vine din api cu redux
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -72,7 +72,7 @@ class Login extends Component {
                   <input
                     type="password"
                     className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.password
+                      "is-invalid": errors.parola
                     })}
                     placeholder="Password"
                     name="parola"
@@ -80,7 +80,7 @@ class Login extends Component {
                     onChange={this.onChange}
                   />
                   {errors.email && (
-                    <div className="invalid-feedback">{errors.password}</div>
+                    <div className="invalid-feedback">{errors.parola}</div>
                   )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
@@ -96,12 +96,12 @@ class Login extends Component {
 loginUser.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  erori: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.erori
+  erori: state.erori
 });
 
 export default connect(

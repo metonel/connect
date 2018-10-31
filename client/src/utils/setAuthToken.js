@@ -2,7 +2,7 @@ import axios from "axios";
 
 const setAuthToken = token => {
   if (token) {
-    //axios ne permite sa aplicam tokenul la fiecare requaet
+    //axios cu default permite sa aplicam tokenul la fiecare requaet
     axios.defaults.headers.common["Authorization"] = token; //in headet pune tokenul ca val pt Authorization
   } else {
     //sterge headerul auth
