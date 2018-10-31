@@ -44,11 +44,23 @@ export const loginUser = userData => dispatch => {
     );
 };
 
-//
+//seteaza userul care e logat, luandu-l din token
 
 export const setCurrentUser = decoded => {
+  //merge la authReducer, prin type
   return {
     type: SET_CURRENT_USER,
     payload: decoded
   };
+};
+
+//delogarea
+
+export const logoutUser = () => dispatch => {
+  //remove token from local
+  localStorage.removeItem("jwtToken");
+  //remove header-ul, pentru a nu mai avea tokenul deja in header la fiecare request
+  setAuthToken(false);
+  //delogarea, prin setarea userul curent la un obiect gol
+  dispatch(setCurrentUser({})); //e mai sus, si in loc de decoded payload-ul va fi un obiect gol. asta merge la authReducer prin type
 };

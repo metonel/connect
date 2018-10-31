@@ -16,6 +16,13 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentWillMount() {
+    //daca e user autentificat sa nu poata accesa manual ruta asta (/login)
+    if (this.props.auth.eAutentificat) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.eAutentificat) {
       this.props.history.push("/dashboard");

@@ -15,7 +15,7 @@ export default function(state = initialState, action) {
         ...state, //folosim spread oper ca sa adaugam la state, nu sa schimbam
         eAutentificat: !eGol(action.payload), //true daca nu e gol, false daca e gol
         user: action.payload
-      }; //facand asa, cand delogam putem apela reducerul asta fara user in actions si atunci seteaza returneaza state cu userul obiect gol
+      }; //facand asa, cand delogam putem apela reducerul asta fara user in actions si atunci seteaza returneaza state cu userul obiect gol, adica revine la initialState
     default:
       return state;
   }
