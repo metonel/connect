@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom"; //pt redirectionare dupa logare.
-import classnames from "classnames";
 import { connect } from "react-redux"; //pentru a conecta redux la componenta asta
 import { registerUser } from "../../actions/authActions";
+import TextFieldGroup from "../common/TextFieldGroup";
 
 class Register extends Component {
   constructor() {
@@ -65,73 +65,42 @@ class Register extends Component {
                   Create your DevConnector account
                 </p>
                 <form noValidate onSubmit={this.onSubmit}>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      className={classnames("form-control form-control-lg", {
-                        "is-invalid": erori.nume
-                      })} //promu parametru is clasele ce id by default, in param 2 clasa se aplica numai daca exista erori.nume
-                      placeholder="Name"
-                      name="nume"
-                      value={this.state.nume}
-                      onChange={this.onChange}
-                    />
-                    {erori.nume && (
-                      <div className="invalid-feedback">{erori.nume}</div>
-                    )}
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="email"
-                      className={classnames("form-control form-control-lg", {
-                        "is-invalid": erori.email
-                      })}
-                      placeholder="Email Address"
-                      name="email"
-                      value={this.state.email}
-                      onChange={this.onChange}
-                    />
+                  <TextFieldGroup
+                    placeholder="Name"
+                    name="nume"
+                    value={this.state.nume}
+                    onChange={this.onChange}
+                    error={erori.nume}
+                  />
 
-                    {erori.email && (
-                      <div className="invalid-feedback">{erori.email}</div>
-                    )}
+                  <TextFieldGroup
+                    placeholder="Email"
+                    name="email"
+                    type="email"
+                    value={this.state.email}
+                    onChange={this.onChange}
+                    error={erori.email}
+                    info="This site uses Gravatar so if you want a profile image, use a Gravatar email"
+                  />
 
-                    <small className="form-text text-muted">
-                      This site uses Gravatar so if you want a profile image,
-                      use a Gravatar email
-                    </small>
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      className={classnames("form-control form-control-lg", {
-                        "is-invalid": erori.parola
-                      })}
-                      placeholder="Password"
-                      name="parola"
-                      value={this.state.parola}
-                      onChange={this.onChange}
-                    />
-                    {erori.parola && (
-                      <div className="invalid-feedback">{erori.parola}</div>
-                    )}
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      className={classnames("form-control form-control-lg", {
-                        "is-invalid": erori.parola2
-                      })}
-                      placeholder="Confirm Password"
-                      name="parola2"
-                      value={this.state.parola2}
-                      onChange={this.onChange}
-                    />
+                  <TextFieldGroup
+                    placeholder="Password"
+                    name="parola"
+                    type="password"
+                    value={this.state.parola}
+                    onChange={this.onChange}
+                    error={erori.parola}
+                  />
 
-                    {erori.parola2 && (
-                      <div className="invalid-feedback">{erori.parola2}</div>
-                    )}
-                  </div>
+                  <TextFieldGroup
+                    placeholder="Confirm password"
+                    name="parola2"
+                    type="password"
+                    value={this.state.parola2}
+                    onChange={this.onChange}
+                    error={erori.parola2}
+                  />
+
                   <input
                     type="submit"
                     className="btn btn-info btn-block mt-4"

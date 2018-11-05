@@ -3,8 +3,10 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
 import errorReducer from "./errorReducer";
+import profileReducer from "./profileReducer";
 
 export default combineReducers({
   auth: authReducer, //in componente cand o sa folosim ceva din authReducer o sa apelam cu this.props.auth
-  erori: errorReducer
+  erori: errorReducer,
+  profile: profileReducer
 });

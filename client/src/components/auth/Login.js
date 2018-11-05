@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+//import classnames from "classnames";
 import { connect } from "react-redux";
-import classnames from "classnames";
 import { loginUser } from "../../actions/authActions";
+import TextFieldGroup from "../common/TextFieldGroup";
 
 class Login extends Component {
   constructor() {
@@ -60,6 +61,16 @@ class Login extends Component {
                 Sign in to your DevConnector account
               </p>
               <form onSubmit={this.onSubmit}>
+                <TextFieldGroup
+                  placeholder="adresa email"
+                  name="email"
+                  type="email"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                  error={errors.email}
+                />
+
+                {/* cu componenta TextFieldGroup am inlocuit asta:
                 <div className="form-group">
                   <input
                     type="email"
@@ -74,7 +85,17 @@ class Login extends Component {
                   {errors.email && (
                     <div className="invalid-feedback">{errors.email}</div>
                   )}
-                </div>
+                </div> */}
+
+                <TextFieldGroup
+                  placeholder="parola"
+                  name="parola"
+                  type="password"
+                  value={this.state.parola}
+                  onChange={this.onChange}
+                  error={errors.parola}
+                />
+                {/* la fel si aici
                 <div className="form-group">
                   <input
                     type="password"
@@ -89,7 +110,8 @@ class Login extends Component {
                   {errors.email && (
                     <div className="invalid-feedback">{errors.parola}</div>
                   )}
-                </div>
+                </div> */}
+
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
             </div>
