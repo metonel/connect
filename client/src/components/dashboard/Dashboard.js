@@ -2,12 +2,17 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getCurrentProfile } from "../../actions/profileActions";
+import { getCurrentProfile, deleteAccount } from "../../actions/profileActions";
 import Spinner from "../common/Spinner";
+import ProfileActions from "./ProfileActions"; //asta ii componenta aia de sus ii actiune
 
 class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
+  }
+
+  onDelete(e) {
+    this.props.deleteAccount();
   }
 
   render() {
@@ -22,15 +27,29 @@ class Dashboard extends Component {
       //varifica daca utiliz logat are profil
       if (Object.keys(profile).length > 0) {
         //pe langa profile, mai avem profiles si loading, in redux->state->profile le putem vedea
-        dashboardContent = <h4>continut</h4>;
+        dashboardContent = (
+          <div>
+            <p className="lead text-muted">
+              Welcome <Link to={`/profil/${profile.handle}`}> {user.nume}</Link>
+            </p>
+            <ProfileActions />
+            <div style={{ marginBottom: "60px" }} />
+            <button
+              onClick={this.onDelete.bind(this)}
+              className="btn btn-danger"
+            >
+              Delete My Account
+            </button>
+          </div>
+        );
       } else {
         //user fara profil
         dashboardContent = (
           <div>
-            <p className="lead text-muted">bine ai venit {user.nume}</p>
-            <p>nu ai detalii in profil</p>
+            <p className="lead text-muted">Welcome {user.nume}</p>
+            <p>currently you have no profile created</p>
             <Link to="/create-profile" className="btn btn-lg btn-info">
-              creare profil
+              Create Your Prolfile Now
             </Link>
           </div>
         );
@@ -55,7 +74,8 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  deleteAccount: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -65,5 +85,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, deleteAccount }
 )(Dashboard);

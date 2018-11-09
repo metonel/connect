@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import InputGroup from "../common/InputGroup";
 import SelectListGroup from "../common/SelectListGroup";
+import { createProfile } from "../../actions/profileActions";
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -31,9 +33,32 @@ class CreateProfile extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.erori) {
+      //asta vine din mapStateToProps
+      this.setState({ erori: nextProps.erori }); //prima variabila erori ii cea folosita in componenta, o legam la erori primita din errReducer, daca vine cu erori. cu setState, punem erori in state ca sa le scoatem din state ca variabila in int componentei
+    }
+  }
+
   onSubmit(e) {
     e.preventDefault();
-    console.log("submit clicked");
+    const profileData = {
+      handle: this.state.handle,
+      companie: this.state.hacompaniendle,
+      website: this.state.website,
+      locatie: this.state.locatie,
+      status: this.state.handle,
+      abilitati: this.state.abilitati,
+      git: this.state.git,
+      bio: this.state.bio,
+      twitter: this.twitter,
+      fbk: this.state.fbk,
+      linkedin: this.state.linkedin,
+      youtube: this.state.youtube,
+      insta: this.state.insta
+    };
+
+    this.props.createProfile(profileData, this.props.history);
   }
 
   onChange(e) {
@@ -41,7 +66,7 @@ class CreateProfile extends Component {
   }
 
   render() {
-    const { erori, displaySocialInputs } = this.state;
+    const { erori, displaySocialInputs } = this.state; //aici scoatem din state sa folosim in componenta datele primite
     let socialInputs;
     if (displaySocialInputs) {
       socialInputs = (
@@ -52,7 +77,7 @@ class CreateProfile extends Component {
             icon="fab fa-twitter"
             value={this.state.twitter}
             onChange={this.onChange}
-            erori={erori.twitter}
+            error={erori.twitter}
           />
 
           <InputGroup
@@ -61,7 +86,7 @@ class CreateProfile extends Component {
             icon="fab fa-linkedin"
             value={this.state.linkedin}
             onChange={this.onChange}
-            erori={erori.linkedin}
+            error={erori.linkedin}
           />
 
           <InputGroup
@@ -70,7 +95,7 @@ class CreateProfile extends Component {
             icon="fab fa-youtube"
             value={this.state.youtube}
             onChange={this.onChange}
-            erori={erori.youtube}
+            error={erori.youtube}
           />
 
           <InputGroup
@@ -79,7 +104,7 @@ class CreateProfile extends Component {
             icon="fab fa-instagram"
             value={this.state.insta}
             onChange={this.onChange}
-            erori={erori.insta}
+            error={erori.insta}
           />
         </div>
       );
@@ -103,18 +128,18 @@ class CreateProfile extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-8 m-auto">
-                <h1 className="display-4 text-center">Creaza profil</h1>
+                <h1 className="display-4 text-center">Create Profile</h1>
                 <p className="lead text-center">
-                  completeaza informatiile pentru a-ti face prfilul mai relevant
+                  fill out the the info below to make your profile more relevant
                 </p>
-                <small className="d-block pb-3">*-campuri necesare</small>
+                <small className="d-block pb-3">* -required fields</small>
                 <form onSubmit={this.onSubmit}>
                   <TextFieldGroup
                     placeholder="* Profile Handle"
                     name="handle"
                     value={this.state.handle}
                     onChange={this.onChange}
-                    erori={erori.handle}
+                    error={erori.handle} //in componenta TextFieldGroup ii error, in componenta curenta ii erori (care ia valoarea din reducer)
                     info="A unique handle would be usefull (it can be changed later)"
                   />
 
@@ -124,7 +149,7 @@ class CreateProfile extends Component {
                     value={this.state.status}
                     onChange={this.onChange}
                     options={options}
-                    erori={erori.status}
+                    error={erori.status}
                     info="Give us an ideea where you are at in your career"
                   />
 
@@ -133,7 +158,7 @@ class CreateProfile extends Component {
                     name="companie"
                     value={this.state.companie}
                     onChange={this.onChange}
-                    erori={erori.companie}
+                    error={erori.companie}
                     info="Could be your own company or the one you work for"
                   />
 
@@ -142,7 +167,7 @@ class CreateProfile extends Component {
                     name="website"
                     value={this.state.website}
                     onChange={this.onChange}
-                    erori={erori.website}
+                    error={erori.website}
                     info="Cpuld be your own website or a company"
                   />
 
@@ -160,7 +185,7 @@ class CreateProfile extends Component {
                     name="abilitati"
                     value={this.state.abilitati}
                     onChange={this.onChange}
-                    erori={erori.abilitati}
+                    error={erori.abilitati}
                     info="Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)"
                   />
 
@@ -184,6 +209,7 @@ class CreateProfile extends Component {
 
                   <div className="mb-3">
                     <button
+                      type="button" //daca nu punem type o sa il vada ca si submit si va trimite profilu cand apasam toggle pt social media
                       onClick={() => {
                         this.setState(prevState => ({
                           displaySocialInputs: !prevState.displaySocialInputs //toggle
@@ -213,12 +239,15 @@ class CreateProfile extends Component {
 
 CreateProfile.propTypes = {
   profile: PropTypes.object.isRequired,
-  eorori: PropTypes.object.isRequired
+  erori: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  erori: state.erori
+  erori: state.erori //ascultam daca se emite din errorReducer ceva (se emite din action, prin type)
 });
 
-export default connect(mapStateToProps)(CreateProfile);
+export default connect(
+  mapStateToProps,
+  { createProfile }
+)(withRouter(CreateProfile)); //facem redirijaare cu history si avem nevoie de withRouter sa mearga

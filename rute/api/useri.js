@@ -83,7 +83,7 @@ router.post("/login", (req, res) => {
 
       if (!user) {
         erori.email = "email inexistent";
-        return res.status(404).json(erori.email);
+        return res.status(404).json(erori); //daca returnam erori.email trimitea variabila cu text, nu puteam procesa error.email sau .parola cum e mai jos, primeam o reoare cu textu respeciv si atat
       }
       //verifica parola
       bcrypt.compare(parola, user.parola).then(sePotrivesc => {
@@ -104,7 +104,7 @@ router.post("/login", (req, res) => {
           );
         } else {
           erori.parola = "parola invalida";
-          return res.status(400).json(erori.parola);
+          return res.status(400).json(erori);
         }
       });
     });
