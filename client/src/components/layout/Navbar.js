@@ -15,12 +15,12 @@ class Navbar extends Component {
 
   render() {
     const { eAutentificat, user } = this.props.auth;
-
+    //la logout nu se redirijeaza automat catre login deoarece rutele is protejate la acces si fiind in PrivateRoute, cnad se da logout si nu mai e user, de duce direct la login
     const authLinks = (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
           <a
-            href=""
+            href="v"
             onClick={this.onLogoutClick.bind(this)}
             className="nav-link"
           >
@@ -83,7 +83,7 @@ class Navbar extends Component {
 }
 
 Navbar.propTypes = {
-  logoutUser: PropTypes.func.isRequires,
+  logoutUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 
