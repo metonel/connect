@@ -6,7 +6,8 @@ import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import InputGroup from "../common/InputGroup";
 import SelectListGroup from "../common/SelectListGroup";
-import { createProfile } from "../../actions/profileActions";
+import { createProfile, getCurrentProfile } from "../../actions/profileActions"; // in api folosim aceeasi ruta pt a crea si updata un profil, de aia folosim tot createProfile aici
+import eGol from "../../validation/eGol";
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -21,8 +22,9 @@ class CreateProfile extends Component {
       abilitati: "",
       git: "",
       bio: "",
+      twitter: "",
       fbk: "",
-      linkedIn: "",
+      linkedin: "",
       youtube: "",
       insta: "",
       erori: {}
@@ -32,10 +34,53 @@ class CreateProfile extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.props.getCurrentProfile();
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.erori) {
       //asta vine din mapStateToProps
       this.setState({ erori: nextProps.erori }); //prima variabila erori ii cea folosita in componenta, o legam la erori primita din errReducer, daca vine cu erori. cu setState, punem erori in state ca sa le scoatem din state ca variabila in int componentei
+    }
+
+    if (nextProps.profile.profile) {
+      const profil = nextProps.profile.profile;
+
+      //abilitati e o multime, aici o aducem inapoi in csv string
+      const abilitaticsv = profil.abilitati.join(",");
+
+      //verificam daca are campuri goale, daca are, atunci le facem string, sa nu dea erori la evaluare
+      profil.companie = !eGol(profil.companie) ? profil.companie : "";
+      profil.website = !eGol(profil.website) ? profil.website : "";
+      profil.locatie = !eGol(profil.locatie) ? profil.locatie : "";
+      profil.git = !eGol(profil.git) ? profil.git : "";
+      profil.bio = !eGol(profil.bio) ? profil.bio : "";
+      profil.social = !eGol(profil.social) ? profil.social : {};
+      profil.fbk = !eGol(profil.social.fbk) ? profil.social.fbk : "";
+      profil.youtube = !eGol(profil.social.youtube)
+        ? profil.social.youtube
+        : "";
+      profil.linkedIn = !eGol(profil.social.linkedIn)
+        ? profil.social.linkedIn
+        : "";
+      profil.insta = !eGol(profil.social.insta) ? profil.social.insta : "";
+
+      //
+      this.setState({
+        handle: profil.handle,
+        companie: profil.companie,
+        website: profil.website,
+        locatie: profil.locatie,
+        status: profil.status,
+        abilitati: abilitaticsv,
+        git: profil.git,
+        bio: profil.bio,
+        fbk: profil.fbk,
+        youtube: profil.youtube,
+        linkedIn: profil.linkedIn,
+        insta: profil.insta
+      });
     }
   }
 
@@ -50,8 +95,9 @@ class CreateProfile extends Component {
       abilitati: this.state.abilitati,
       git: this.state.git,
       bio: this.state.bio,
+      twitter: this.twitter,
       fbk: this.state.fbk,
-      linkedIn: this.state.linkedin,
+      linkedin: this.state.linkedin,
       youtube: this.state.youtube,
       insta: this.state.insta
     };
@@ -70,9 +116,9 @@ class CreateProfile extends Component {
       socialInputs = (
         <div>
           <InputGroup
-            placeholder="Facebook Profile URL"
+            placeholder="Twitter Profile URL"
             name="fbk"
-            icon="fab fa-facebook"
+            icon="fab fa-facebook  "
             value={this.state.fbk}
             onChange={this.onChange}
             error={erori.fbk}
@@ -126,7 +172,7 @@ class CreateProfile extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-8 m-auto">
-                <h1 className="display-4 text-center">Create Profile</h1>
+                <h1 className="display-4 text-center">Edit Your Profile</h1>
                 <p className="lead text-center">
                   fill out the the info below to make your profile more relevant
                 </p>
@@ -237,7 +283,9 @@ class CreateProfile extends Component {
 
 CreateProfile.propTypes = {
   profile: PropTypes.object.isRequired,
-  erori: PropTypes.object.isRequired
+  erori: PropTypes.object.isRequired,
+  createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -247,5 +295,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createProfile }
+  { createProfile, getCurrentProfile }
 )(withRouter(CreateProfile)); //facem redirijaare cu history si avem nevoie de withRouter sa mearga
