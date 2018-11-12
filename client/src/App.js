@@ -17,6 +17,9 @@ import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
+import AddExp from "./components/add-credentials/AddExp";
+import AddEdu from "./components/add-credentials/AddEdu";
+import Profiles from "./components/profiles/Profiles";
 
 import "./App.css";
 
@@ -53,6 +56,7 @@ class App extends Component {
             <div className="container">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/profiles" component={Profiles} />
               {/* cu switch, daca suntem pe o ruta protejata si dam logout, redirijeaza la ruta setata in PrivateRoute */}
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
@@ -70,6 +74,13 @@ class App extends Component {
                   path="/edit-profile"
                   component={EditProfile}
                 />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/add-exp" component={AddExp} />{" "}
+                {/* path= e ruta ce va fi ca link iar component e componenta ce va fi apelata cand se acceseaza ruta */}
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/add-edu" component={AddEdu} />
               </Switch>
             </div>
 
