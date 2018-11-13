@@ -9,6 +9,8 @@ import SelectListGroup from "../common/SelectListGroup";
 import { createProfile, getCurrentProfile } from "../../actions/profileActions"; // in api folosim aceeasi ruta pt a crea si updata un profil, de aia folosim tot createProfile aici
 import eGol from "../../validation/eGol";
 
+// IN COMPONENTA ASTA POTI SA VEZI CUM VIN ERORILE
+
 class CreateProfile extends Component {
   constructor(props) {
     super(props);
@@ -22,9 +24,8 @@ class CreateProfile extends Component {
       abilitati: "",
       git: "",
       bio: "",
-      twitter: "",
       fbk: "",
-      linkedin: "",
+      linkedIn: "",
       youtube: "",
       insta: "",
       erori: {}
@@ -95,7 +96,6 @@ class CreateProfile extends Component {
       abilitati: this.state.abilitati,
       git: this.state.git,
       bio: this.state.bio,
-      twitter: this.twitter,
       fbk: this.state.fbk,
       linkedin: this.state.linkedin,
       youtube: this.state.youtube,
@@ -116,7 +116,7 @@ class CreateProfile extends Component {
       socialInputs = (
         <div>
           <InputGroup
-            placeholder="Twitter Profile URL"
+            placeholder="Facebook Profile URL"
             name="fbk"
             icon="fab fa-facebook  "
             value={this.state.fbk}

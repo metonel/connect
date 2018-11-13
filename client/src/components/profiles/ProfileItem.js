@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import eGol from "../../validation/eGol";
-import { spawn } from "child_process";
 
 class ProfileItem extends Component {
   render() {

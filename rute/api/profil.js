@@ -144,7 +144,9 @@ router.post(
     Profil.findOne({ user: req.user.id }).then(profil => {
       if (profil) {
         //daca e profilul, inseamna ca il editam
-        /// UPDATE
+
+        /// UPDATE  NU MERGE ! ! ! !
+
         Profil.findOneAndUpdate(
           { user: req.body.id },
           { $set: campuriProfil },

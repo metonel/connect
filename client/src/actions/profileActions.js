@@ -25,8 +25,29 @@ export const getCurrentProfile = () => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: GET_PROFILE, //poate fi un user inregistrat dar care nu are profil
+        type: GET_PROFILE, //poate fi un user inregistrat dar care nu are profil si-l punem null pt modul de verificare folosit in reducer
         payload: {}
+      })
+    );
+};
+
+//profilul dupa handle
+
+export const getProfileByHandle = handle => dispatch => {
+  dispatch(setProfileLoading()); //pt spinneru de loading
+
+  axios
+    .get(`/api/profil/handle/${handle}`)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: null //nu stiu de ce ii null, da daca trimitem {}, in componenta (profile/Profile.js) cand verificam daca exista profilul sau daca e loading, da eroare, nu mai are in props profilu (apeleaza SET_CURRENT_USER)
       })
     );
 };

@@ -20,6 +20,8 @@ import EditProfile from "./components/edit-profile/EditProfile";
 import AddExp from "./components/add-credentials/AddExp";
 import AddEdu from "./components/add-credentials/AddEdu";
 import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profile/Profile";
+import NotFound from "./components/not-found/NotFound";
 
 import "./App.css";
 
@@ -57,6 +59,7 @@ class App extends Component {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/profiles" component={Profiles} />
+              <Route exact path="/profile/:handle" component={Profile} />
               {/* cu switch, daca suntem pe o ruta protejata si dam logout, redirijeaza la ruta setata in PrivateRoute */}
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
@@ -82,6 +85,8 @@ class App extends Component {
               <Switch>
                 <PrivateRoute exact path="/add-edu" component={AddEdu} />
               </Switch>
+
+              <Route exact path="/not-found" component={NotFound} />
             </div>
 
             <Footer />
