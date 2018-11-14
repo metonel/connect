@@ -6,7 +6,7 @@ module.exports = function valideazaPostare(data) {
 
   data.text = !eGol(data.text) ? data.text : "";
 
-  if (!validator.isLength(data.text, { min: 10, max: 3000 })) {
+  if (!validator.isLength(data.text, { min: 3, max: 3000 })) {
     erori.text = "postarea trebuie sa aiba intre 3 si 3000 de caractere";
   }
 

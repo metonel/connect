@@ -22,6 +22,8 @@ import AddEdu from "./components/add-credentials/AddEdu";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
 import NotFound from "./components/not-found/NotFound";
+import Posts from "./components/posts/Posts";
+import Post from "./components/post/Post";
 
 import "./App.css";
 
@@ -64,6 +66,7 @@ class App extends Component {
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>
+
               <Switch>
                 <PrivateRoute
                   exact
@@ -71,6 +74,7 @@ class App extends Component {
                   component={CreateProfile}
                 />
               </Switch>
+
               <Switch>
                 <PrivateRoute
                   exact
@@ -78,12 +82,22 @@ class App extends Component {
                   component={EditProfile}
                 />
               </Switch>
+
               <Switch>
                 <PrivateRoute exact path="/add-exp" component={AddExp} />{" "}
                 {/* path= e ruta ce va fi ca link iar component e componenta ce va fi apelata cand se acceseaza ruta */}
               </Switch>
+
               <Switch>
                 <PrivateRoute exact path="/add-edu" component={AddEdu} />
+              </Switch>
+
+              <Switch>
+                <PrivateRoute exact path="/feed" component={Posts} />
+              </Switch>
+
+              <Switch>
+                <PrivateRoute exact path="/post/:id" component={Post} />
               </Switch>
 
               <Route exact path="/not-found" component={NotFound} />
