@@ -46,7 +46,7 @@ class CreateProfile extends Component {
       companie: this.state.hacompaniendle,
       website: this.state.website,
       locatie: this.state.locatie,
-      status: this.state.handle,
+      status: this.state.status, //aici aveam pus this.state.handle si punea handle-ul ce il completam in form in loc de status!!
       abilitati: this.state.abilitati,
       git: this.state.git,
       bio: this.state.bio,

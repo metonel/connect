@@ -145,13 +145,11 @@ router.post(
       if (profil) {
         //daca e profilul, inseamna ca il editam
 
-        /// UPDATE  NU MERGE ! ! ! !
-
-        Profil.findOneAndUpdate(
-          { user: req.body.id },
+        Profil.findByIdAndUpdate(
+          profil.id,
           { $set: campuriProfil },
           { new: true }
-        ).then(profil => res.json(profil));
+        ).then(profil => res.json(profil).catch(err => console.log(err)));
       } else {
         //creare profil
 

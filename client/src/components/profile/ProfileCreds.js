@@ -6,7 +6,7 @@ class ProfileCreds extends Component {
     const { exp, edu } = this.props;
 
     const expItems = exp.map(expItem => (
-      <li key={expItem._id} className="lisy-group-item">
+      <li key={expItem._id} className="lisy-group-item mb-3">
         <h4>{expItem.companie}</h4>
         <p>
           <Moment format="YY/MM/DD">{expItem.deLa}</Moment> -{" "}
@@ -39,7 +39,7 @@ class ProfileCreds extends Component {
     ));
 
     const eduItems = edu.map(eduItem => (
-      <li key={eduItem._id} className="lisy-group-item">
+      <li key={eduItem._id} className="lisy-group-item mb-3">
         <h4>{eduItem.scoala}</h4>
         <p>
           <Moment format="YY/MM/DD">{eduItem.deLa}</Moment> -{" "}
